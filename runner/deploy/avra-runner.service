@@ -58,7 +58,7 @@ SystemCallErrorNumber=EPERM
 # only loopback + the Juice Shop VM. Keep in sync with the Runner scope.
 RestrictAddressFamilies=AF_INET AF_UNIX AF_NETLINK
 IPAddressDeny=any
-IPAddressAllow=127.0.0.1 192.168.56.103
+IPAddressAllow=127.0.0.1 10.66.7.103
 
 # Resources.
 MemoryMax=512M

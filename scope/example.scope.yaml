@@ -14,7 +14,7 @@ description: >-
   applications only.
 
 targets:
-  - host: "192.168.56.103"  # Ubuntu VM's host-only IP (docs/lab-setup.md)
+  - host: "10.66.7.103"  # lab target (synthetic example address)
     description: >-
       OWASP Juice Shop — an intentionally-vulnerable web application built by
       the OWASP project for security education, running in Docker on the lab's

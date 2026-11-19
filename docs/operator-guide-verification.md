@@ -34,7 +34,7 @@ or sent to another model.
 
 ```json
 {"hypotheses": [
-  {"rule_id": "http.missing_x_content_type_options", "host": "192.168.56.103",
+  {"rule_id": "http.missing_x_content_type_options", "host": "10.66.7.103",
    "port": 3000, "origin": "model", "rationale": "why this is worth checking"}
 ]}
 ```
@@ -62,9 +62,9 @@ unverified text; no rule evaluates them.
 > avra verify session --session 7e868faf-768d-49af-aea6-81dc9d435e20
 CONFIRMED FINDINGS (vulnerability rules): 0
 Verified observations (facts, not vulnerabilities): 1
-  [CONFIRMED] http.service_observed @ 192.168.56.103:3000 - HTTP/1.1 status 200 received
+  [CONFIRMED] http.service_observed @ 10.66.7.103:3000 - HTTP/1.1 status 200 received
 Rejected hypotheses: 1
-  [REJECTED] http.missing_x_content_type_options @ 192.168.56.103:3000 - Every eligible
+  [REJECTED] http.missing_x_content_type_options @ 10.66.7.103:3000 - Every eligible
   response sends X-Content-Type-Options: nosniff.
 ```
 
