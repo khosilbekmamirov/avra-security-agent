@@ -1,0 +1,65 @@
+[project]
+name = "avra"
+version = "0.0.0"
+description = "AVRA — AI Vulnerability Research Agent"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+
+# Phase 1 needs pydantic/typer/pyyaml (scope + CLI). The rest of the
+# architecture proposal's stack (anthropic, httpx, defusedxml, jinja2)
+# stays commented out until the phase that actually uses it — see
+# CLAUDE.md "Avoid unnecessary dependencies."
+dependencies = [
+    "pydantic>=2",
+    "typer>=0.12",
+    "pyyaml>=6",
+    # Official SDK, the only model provider (ADR 0001; M7, ADR 0005).
+    # Pinned: request shapes and usage fields are tested against it.
+    "anthropic==2.6.0",
+    # "httpx",
+    # Parsing nmap XML that comes back from the lab (M6.4; owner decision
+    # 2026-11-06): blocks entity-expansion / external-entity attacks that
+    # the stdlib parsers don't fully guard against. Pure Python, no deps.
+    "defusedxml==0.7.1",
+    # "jinja2",
+]
+
+[project.optional-dependencies]
+# Tool Runner HTTP service — installed only where the Runner runs (Kali)
+# and in dev. Starlette rather than FastAPI: ADR 0003 decision 2.
+runner = [
+    "starlette==1.9.0",
+    "uvicorn==0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "httpx==0.28.1",  # Starlette TestClient (tests only)
+    # "pip-audit",
+]
+
+[project.scripts]
+avra = "avra.cli.main:main"
+# The Runner's http_probe child program (ADR 0007); started only by the
+# Runner with a fixed argv, configured as AVRA_RUNNER_EXEC_HTTP_PROBE.
+avra-http-probe = "avra.runner.tools.http_probe:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/avra"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff.lint.per-file-ignores]
+# Typer's documented pattern is typer.Option(...)/typer.Argument(...) as
+# the parameter default — that's what ruff's B008 is normally guarding
+# against, so it doesn't apply to CLI modules.
+"src/avra/cli/*.py" = ["B008"]

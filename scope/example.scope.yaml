@@ -1,0 +1,27 @@
+# Example scope file — NOT a real target. Copy and edit per session.
+# Loaded by the Policy layer (docs/architecture.md §8, §4.9). Default is
+# deny: nothing outside this file's allowlist may be touched.
+
+session_name: "example-lab-session"
+expires_at: "2026-12-31T23:59:59Z"
+
+# Owner-written description of the authorized environment. Passed to the
+# model as factual context only (it never affects the scope check). Describe
+# the real lab here; do not overstate authorization.
+description: >-
+  Owner-controlled home security lab running in VirtualBox on a host-only
+  network (docs/lab-setup.md). Targets are intentionally-vulnerable training
+  applications only.
+
+targets:
+  - host: "192.168.56.103"  # Ubuntu VM's host-only IP (docs/lab-setup.md)
+    description: >-
+      OWASP Juice Shop — an intentionally-vulnerable web application built by
+      the OWASP project for security education, running in Docker on the lab's
+      Ubuntu VM.
+    ports: [3000]
+    allowed_tiers: ["passive", "active-safe"]
+    allowed_tools: ["nmap_connect_scan"]
+
+# Anything not listed above (any other host, port, tool, or tier) is
+# rejected by the Policy layer, regardless of what the model requests.

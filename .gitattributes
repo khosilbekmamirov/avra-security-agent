@@ -1,0 +1,12 @@
+# Deployment files run on Linux: always LF, regardless of core.autocrlf.
+# A CRLF shell script or sshd/systemd file breaks (or, worse, half-runs).
+*.sh                text eol=lf
+runner/deploy/**    text eol=lf
+*.whl               binary
+# Synthetic `sshd -T`-style output (OpenSSH 10.5 canonical form); tests compare it line by line.
+tests/fixtures/sshd/** text eol=lf
+# Synthetic nmap XML (structure of nmap 7.x -oX output, synthetic 10.66.7.0/24 addresses).
+tests/fixtures/nmap/** text eol=lf
+# Synthetic sessions (hash-chained audit logs + evidence); the verification tests compare
+# SHA-256 hashes, so never convert line endings.
+tests/fixtures/synthetic-sessions/** -text -whitespace

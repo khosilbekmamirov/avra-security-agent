@@ -1,0 +1,35 @@
+{
+  "format": "avra-validation-fixture/1",
+  "label": "SIMULATED-FIXTURE",
+  "target": {
+    "host": "192.168.56.250",
+    "port": 8080
+  },
+  "check": "idor.cross_account_object_access",
+  "owner_marker": "SYNTH-BASKET-A-7F3C",
+  "description": "SIMULATED: basket 7 of synthetic-user-a is returned to synthetic-user-b.",
+  "exchanges": [
+    {
+      "role": "owner",
+      "account": "synthetic-user-a",
+      "method": "GET",
+      "path": "/rest/basket/7",
+      "marker": null,
+      "status": 200,
+      "content_type": "application/json",
+      "body_b64": "eyJpZCI6IDcsICJvd25lciI6ICJzeW50aGV0aWMtdXNlci1hIiwgIml0ZW1zIjogWyJzeW50aGV0aWMtaXRlbSJdLCAibWFya2VyIjogIlNZTlRILUJBU0tFVC1BLTdGM0MifQ==",
+      "body_sha256": "6b9b7e456fec352f8b99bd53ccc293bdd0584d52bb735da9fcf819575cc06ee9"
+    },
+    {
+      "role": "other_account",
+      "account": "synthetic-user-b",
+      "method": "GET",
+      "path": "/rest/basket/7",
+      "marker": null,
+      "status": 200,
+      "content_type": "application/json",
+      "body_b64": "eyJpZCI6IDcsICJvd25lciI6ICJzeW50aGV0aWMtdXNlci1hIiwgIml0ZW1zIjogWyJzeW50aGV0aWMtaXRlbSJdLCAibWFya2VyIjogIlNZTlRILUJBU0tFVC1BLTdGM0MifQ==",
+      "body_sha256": "6b9b7e456fec352f8b99bd53ccc293bdd0584d52bb735da9fcf819575cc06ee9"
+    }
+  ]
+}

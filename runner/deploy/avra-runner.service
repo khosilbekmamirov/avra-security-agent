@@ -1,0 +1,68 @@
+# AVRA Tool Runner — systemd unit (ADR 0003, M4). Installed by install.sh
+# to /etc/systemd/system/avra-runner.service. NOT enabled or started by
+# the installer; the owner starts it explicitly.
+#
+# The Runner listens on 127.0.0.1 only and is reached from Windows through
+# a restricted SSH tunnel (see README.md). The kernel-level IP allowlist
+# below means the Runner and nmap can only talk to loopback and the lab
+# target, even if every application-level check were bypassed.
+
+[Unit]
+Description=AVRA Tool Runner (lab only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=avra-runner
+Group=avra-runner
+EnvironmentFile=/etc/avra-runner/runner.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/avra-runner/venv/bin/python -m avra.runner
+Restart=no
+TimeoutStopSec=20
+KillMode=control-group
+UMask=0077
+
+# Privileges: none, and none can be gained (blocks nmap's file caps too).
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictSUIDSGID=yes
+
+# Filesystem: everything read-only except the audit directory.
+ProtectSystem=strict
+ReadWritePaths=/var/lib/avra-runner
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectProc=invisible
+# (no ProcSubset=pid: nmap reads /proc/net/route)
+
+# Kernel and system surfaces.
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+RemoveIPC=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+# Network: IPv4 + local sockets only (no AF_PACKET, no raw capture), and
+# only loopback + the Juice Shop VM. Keep in sync with the Runner scope.
+RestrictAddressFamilies=AF_INET AF_UNIX AF_NETLINK
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1 192.168.56.103
+
+# Resources.
+MemoryMax=512M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

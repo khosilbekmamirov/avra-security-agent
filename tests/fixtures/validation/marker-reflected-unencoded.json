@@ -1,0 +1,23 @@
+{
+  "format": "avra-validation-fixture/1",
+  "label": "SIMULATED-FIXTURE",
+  "target": {
+    "host": "192.168.56.250",
+    "port": 8080
+  },
+  "check": "input.marker_reflection",
+  "description": "SIMULATED: search page echoes the marker verbatim.",
+  "exchanges": [
+    {
+      "role": "marker",
+      "account": null,
+      "method": "GET",
+      "path": "/search?q=AVRA0123456789ABCDEF%22%27%3C%3E",
+      "marker": "AVRA0123456789ABCDEF\"'<>",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "body_b64": "PGh0bWw+PGJvZHk+Tm8gcmVzdWx0cyBmb3IgQVZSQTAxMjM0NTY3ODlBQkNERUYiJzw+PC9ib2R5PjwvaHRtbD4=",
+      "body_sha256": "d45480c552344eaefa348cfd8d3b6842c6e850646b334e871d240ccda9fe98d3"
+    }
+  ]
+}
