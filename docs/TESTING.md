@@ -4,12 +4,12 @@
 
 | | |
 |---|---|
-| Commit tested | `56c83fd` (this repository's first commit; same code as private development commit `6fdc34e`) |
+| Commit tested | `fbdeaac` (this repository's first commit; application code identical to the private development commit `6fdc34e`; tests run on synthetic fixtures) |
 | Date | 2026-11-19 |
 | Platform | Windows 11 Pro, Python 3.12.13, pytest |
-| Result | **2090 passed, 42 skipped, 0 failed** (about 2 min 50 s) |
+| Result | **2090 passed, 42 skipped, 0 failed** (about 3 min 20 s) |
 | Skipped | 42 POSIX/systemd-only Runner tests (they run on Linux; they were run on the Kali VM during development) |
-| Lint | `ruff check src tests runner`: 30 findings, all pre-existing and reviewed (mostly intentional broad `except` blocks in Runner cleanup paths and test helpers); no new findings in recent milestones |
+| Lint | `ruff check src tests runner`: 30 findings, all pre-existing in the development repository (mostly broad `except` blocks in Runner cleanup paths and test helpers); not changed in this snapshot |
 
 Command:
 
@@ -19,7 +19,8 @@ python -m pytest -q
 
 No test contacts a network target, the Kali Runner or a model API. Model behaviour is
 tested with scripted fake providers; the Runner HTTP service is tested in-process; the local
-model client is tested against a loopback fake server.
+model client is tested against a loopback fake server. All fixtures are synthetic
+(`tests/fixtures/*/README.md`).
 
 ## What the suites cover
 
